@@ -61,7 +61,7 @@ def add_member():
   member_data = []
   while True:
     full_name = input("Enter Full Name: ").strip().title()
-    checked_name = check_input(full_name)
+    checked_name = check_input(full_name, "name")
     if not checked_name:
       continue
     while True:
@@ -126,14 +126,14 @@ def edit_member(data: str):
       if not member_data:
         print(f"There is no member with ID = {member_id}")
       else:
-        result = f"({member_data[0]} | {member_data[1]} | {member_data[2]}"
+        result = f"({member_data[0]} | {member_data[1]} | {member_data[2]})"
         print("-" * len(result))
         print(result)
         print("-" * len(result))
         if data == "name":
           while True:
             new_name = input("Enter New Name: ").strip().title()
-            new_data = check_input(new_name)
+            new_data = check_input(new_name, "name")
             if not new_data:
               continue
             break
@@ -148,6 +148,8 @@ def edit_member(data: str):
         if cnfrm:
           if data == "name":
             cr.execute(f"UPDATE borrowed SET mem_name = '{new_data}' WHERE mem_id = '{member_id}'")
+          if data == "phone":
+            cr.execute(f"UPDATE borrowed SET mem_phone = '{new_data}' WHERE mem_id = '{member_id}'")
           cr.execute(f"UPDATE members SET '{data}' = '{new_data}' WHERE id = '{member_id}'")
           db.commit()
           print(f"{data.title()} Updated!")

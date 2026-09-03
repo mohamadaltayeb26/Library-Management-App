@@ -63,7 +63,10 @@ def add_book():
   for title in ("Book Title", "Author Name", "Category"):
     while True:
       user_input = input(f"Enter {title}: ").strip().title()
-      checked_input = check_input(user_input)
+      if title == "Book Title":
+        checked_input = check_input(user_input, "book")
+      else:
+        checked_input = check_input(user_input, "name")
       if not checked_input:
         continue
       else:
@@ -135,7 +138,10 @@ def edit_book(data: str):
         print("-" * len(result))
         while True:
           new_data = input(f"Enter new {data.title()}: ").strip().title()
-          checked_input = check_input(new_data)
+          if data == "title":
+            checked_input = check_input(new_data, "book")
+          else:
+            checked_input = check_input(new_data, "name")
           if not checked_input:
             continue
           else:
@@ -144,6 +150,8 @@ def edit_book(data: str):
         if cnfrm:
           if data == "title":
             cr.execute(f"UPDATE borrowed SET book_title = '{checked_input}' WHERE book_id = '{book_id}'")
+          elif data == "author":
+            cr.execute(f"UPDATE borrowed SET book_author = '{checked_input}' WHERE book_id = '{book_id}'")
           cr.execute(f"UPDATE books SET '{data}' = '{checked_input}' WHERE id = '{book_id}'")
           db.commit()
           print(f"{data.title()} Updated!")

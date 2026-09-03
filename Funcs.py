@@ -27,31 +27,42 @@ def setup_database():
   db.commit()
   db.close()
 
-def check_input(string: str):
+def check_input(input: str, type: str):
   """
   Checks if input if allowed.
 
   Args:
-    string(str): the user input:
+    input(str): the user input.
+    type(str): book name, or member name.
 
   Returns True if Yes, False if No.
   """
   new_string = ""
-  if len(string) < 3:
+  if len(input) < 3:
     print("Must be at least 3 letters!")
     return False
-  for letter in string:
-    if letter not in letters + " ":
-      print("Only English letters allowed!")
-      return False
-  i = 0
-  while i < len(string):
-    if string[i] in letters:
-      new_string += string[i]
-    elif string[i] == " " and string[i-1] != " ":
-      new_string += " "
-    i += 1
-  return new_string
+  if type == "book":
+    i = 0
+    while i < len(input):
+      if input[i] != " ":
+        new_string += input[i]
+      elif input[i] == " " and input[i-1] != " ":
+        new_string += " "
+      i += 1
+    return new_string
+  if type == "name":
+    for letter in input:
+      if letter not in letters + " ":
+        print("Only English letters allowed!")
+        return False
+    i = 0
+    while i < len(input):
+      if input[i] in letters:
+        new_string += input[i]
+      elif input[i] == " " and input[i-1] != " ":
+        new_string += " "
+      i += 1
+    return new_string
 
 def confirmation(cnfrm_msg: str):
   """
